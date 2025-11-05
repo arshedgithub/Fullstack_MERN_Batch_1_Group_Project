@@ -18,6 +18,10 @@ app.get('/', function (req, res) {
     res.send("Welcome !");
 });
 
+app.get('/test', function (req, res) {
+    res.send("Testing ");
+});
+
 // app.use('/api/products', productRoute);
 
 const port = 3000;

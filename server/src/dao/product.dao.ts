@@ -21,7 +21,6 @@ export class ProductDao {
         }
     }
     
-
     public async findProductById(userId: string) {
         try {
             return await Product.findById(userId);
@@ -33,7 +32,7 @@ export class ProductDao {
 
     public async getAllActiveProducts() {
         try {
-            return await Product.find({ productStatus: "active" });
+            return await Product.find({ status: "active" });
         } catch (error) {
             console.log("Error", error);
             throw error;

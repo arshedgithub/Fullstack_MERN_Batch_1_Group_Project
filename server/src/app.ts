@@ -1,7 +1,7 @@
 import express from "express";
 import type { Application, Request, Response } from "express";
 import connectDB from "./config/db.config";
-// import productRoutes from "./routes/productRoutes";
+import { SetRoutes } from "./routes/routes";
 
 const app: Application = express();
 
@@ -18,6 +18,6 @@ app.get("/test", (req: Request, res: Response) => {
   res.send("Testing!");
 });
 
-// app.use("/api/products", productRoutes);
+SetRoutes(app)
 
 export default app;

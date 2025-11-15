@@ -7,6 +7,8 @@ export interface IProduct extends Document {
     price: number;
     imageUrl: string;
     isAvailable: boolean;
+    status?: "in stock" | "out of stock";
+    createdBy: string;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -30,6 +32,16 @@ const productSchema = new Schema<IProduct>(
             type: Boolean,
             default: true
         },
+        status: {
+            type: String,
+            enum: ["in stock", "out stock"],
+            default: "in stock"
+        },
+        createdBy: {
+            type: String,
+            ref: 'User',
+            required: false
+        }
     },
     { timestamps: true }
 );

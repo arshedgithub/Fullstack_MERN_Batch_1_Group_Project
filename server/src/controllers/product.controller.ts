@@ -57,4 +57,47 @@ export class ProductController {
       });
     }
   };
+
+  updateProduct = async (req: Request, res: Response) => {
+    try {
+      const productId = req.params.id;
+      const productData = req.body;
+      const product = await this.productService.updateProduct(
+        String(productId),
+        productData
+      );
+
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+
+      return res.status(200).json({ 
+        product, 
+        message: 'Product updated successfully' 
+      });
+    } catch (error) {
+      return res.status(500).json({ 
+        message: 'Internal server error: ' + error 
+      });
+    }
+  };
+
+  deleteProduct = async (req: Request, res: Response) => {
+    try {
+      const productId = req.params.id;
+      const product = await this.productService.deleteProduct(String(productId));
+
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+      }
+
+      return res.status(200).json({ 
+        message: 'Product deleted successfully' 
+      });
+    } catch (error) {
+      return res.status(500).json({ 
+        message: 'Internal server error: ' + error 
+      });
+    }
+  };
 }

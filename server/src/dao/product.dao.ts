@@ -47,6 +47,28 @@ export class ProductDao {
             throw error;
         }
     }
+
+    public async updateProduct(productId: string, productData: Partial<IProduct>) {
+        try {
+            return await Product.findByIdAndUpdate(
+                productId,
+                productData,
+                { new: true, runValidators: true }
+            );
+        } catch (error) {
+            console.log("Error", error);
+            throw error;
+        }
+    }
+
+    public async deleteProduct(productId: string) {
+        try {
+            return await Product.findByIdAndDelete(productId);
+        } catch (error) {
+            console.log("Error", error);
+            throw error;
+        }
+    }
 } 
 
 // model => dao => service => controller => routes

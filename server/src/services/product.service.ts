@@ -49,4 +49,23 @@ export class ProductService {
             throw error;
         }
     }
+
+    public async updateProduct(
+        productId: string,
+        productData: Partial<IProduct>
+    ): Promise<IProduct | null> {
+        try {
+            return await this.productDao.updateProduct(productId, productData);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    public async deleteProduct(productId: string): Promise<IProduct | null> {
+        try {
+            return await this.productDao.deleteProduct(productId);
+        } catch (error) {
+            throw error;
+        }
+    }
 }

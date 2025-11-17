@@ -18,5 +18,11 @@ export default class ProductRoutes {
         
         // POST api/products - Create new product
         this.router.post('/products', this.productController.createProduct);
+
+        // PUT api/products/:id - Update product by ID
+        this.router.put('/products/:id', this.productController.updateProduct);
+
+        // DELETE api/products/:id - Delete product by ID
+        this.router.delete('/products/:id', this.productController.deleteProduct);
     }
 }

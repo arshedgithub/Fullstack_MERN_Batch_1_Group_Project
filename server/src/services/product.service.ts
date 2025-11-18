@@ -16,7 +16,7 @@ export class ProductService {
         return this.instance;
     }
 
-    public async getAllProducts(): Promise<IProduct[]> {
+    public async getAllActiveProducts(): Promise<IProduct[]> {
         try {
             return await this.productDao.getAllActiveProducts();
         } catch (error) {
@@ -61,9 +61,9 @@ export class ProductService {
         }
     }
 
-    public async deleteProduct(productId: string): Promise<IProduct | null> {
+    public async deactivateProduct(productId: string): Promise<IProduct | null> {
         try {
-            return await this.productDao.deleteProduct(productId);
+            return await this.productDao.deactivateProduct(productId);
         } catch (error) {
             throw error;
         }

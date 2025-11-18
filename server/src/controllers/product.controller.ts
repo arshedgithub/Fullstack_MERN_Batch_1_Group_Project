@@ -11,6 +11,13 @@ export class ProductController {
   createProduct = async (req: Request, res: Response) => {
     try {
       const productData = req.body;
+      
+      if (!productData.name || !productData.price) {
+        return res.status(400).json({ 
+          message: 'Missing required fields: name and price are required' 
+        });
+      }
+      
       const product = await this.productService.createProduct(productData);
       
       return res.status(201).json({ 
@@ -24,7 +31,7 @@ export class ProductController {
     }
   };
 
-  getProductProfile = async (req: Request, res: Response) => {
+  getProduct = async (req: Request, res: Response) => {
     try {
       const productId = req.params.id;
       const product = await this.productService.getProductById(String(productId));
@@ -46,7 +53,7 @@ export class ProductController {
 
   getAllProducts = async (req: Request, res: Response) => {
     try {
-      const products = await this.productService.getAllProducts();
+      const products = await this.productService.getAllProductsList();
       return res.status(200).json({ 
         products, 
         message: 'Products fetched successfully' 
@@ -82,17 +89,17 @@ export class ProductController {
     }
   };
 
-  deleteProduct = async (req: Request, res: Response) => {
+  deactivateProduct = async (req: Request, res: Response) => {
     try {
       const productId = req.params.id;
-      const product = await this.productService.deleteProduct(String(productId));
+      const product = await this.productService.deactivateProduct(String(productId));
 
       if (!product) {
         return res.status(404).json({ message: 'Product not found' });
       }
 
       return res.status(200).json({ 
-        message: 'Product deleted successfully' 
+        message: 'Product deactivated successfully' 
       });
     } catch (error) {
       return res.status(500).json({ 

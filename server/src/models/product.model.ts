@@ -8,7 +8,7 @@ export interface IProduct extends Document {
     imageUrl: string;
     isAvailable: boolean;
     status?: "in stock" | "out of stock";
-    createdBy: Date;
+    createdBy: string;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -38,8 +38,9 @@ const productSchema = new Schema<IProduct>(
             default: "in stock"
         },
         createdBy: {
-            type: Date,
-            default: Date.now
+            type: String,
+            ref: 'User',
+            required: false
         }
     },
     { timestamps: true }

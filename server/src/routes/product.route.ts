@@ -14,7 +14,7 @@ export default class ProductRoutes {
         this.router.get('/products', this.productController.getAllProducts);
 
         // GET api/products/:id - Get product by ID
-        this.router.get('/products/:id', this.productController.getProductProfile);
+        this.router.get('/products/:id', this.productController.getProduct);
         
         // POST api/products - Create new product
         this.router.post('/products', this.productController.createProduct);
@@ -22,7 +22,7 @@ export default class ProductRoutes {
         // PUT api/products/:id - Update product by ID
         this.router.put('/products/:id', this.productController.updateProduct);
 
-        // DELETE api/products/:id - Delete product by ID
-        this.router.delete('/products/:id', this.productController.deleteProduct);
+        // DELETE api/products/:id - Deactivate product by ID
+        this.router.delete('/products/:id', this.productController.deactivateProduct);
     }
 }

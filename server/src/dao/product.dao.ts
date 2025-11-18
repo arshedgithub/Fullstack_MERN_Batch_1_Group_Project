@@ -61,9 +61,13 @@ export class ProductDao {
         }
     }
 
-    public async deleteProduct(productId: string) {
+    public async deactivateProduct(productId: string) {
         try {
-            return await Product.findByIdAndDelete(productId);
+            return await Product.findByIdAndUpdate(
+                productId,
+                { isAvailable: false },
+                { new: true }
+            );
         } catch (error) {
             console.log("Error", error);
             throw error;

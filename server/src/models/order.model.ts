@@ -11,7 +11,7 @@ export interface IOrder extends Document {
     totalAmount: number;
     customer: string;
     isAvailable: boolean;
-    status?: "in stock" | "out stock";
+    status?: "pending" | "processing" | "completed" | "delivered";
     createdBy?: string;
 }
 
@@ -37,8 +37,8 @@ const orderSchema = new Schema<IOrder>(
         },
         status: {
             type: String,
-            enum: ["in stock", "out stock"],
-            default: "in stock"
+            enum: ["pending", "processing", "completed", "delivered"],
+            default: "pending"
         },
         createdBy: {
             type: String,

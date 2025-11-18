@@ -11,11 +11,11 @@ export default class OrderRoutes {
 
     private configureRoutes() {
 
-        // Create api/order/
-        this.router.post('/order', this.OrderController.createOrder);
+        // Create api/orders/
+        this.router.post('/orders', this.OrderController.createOrder);
 
-        // GET api/order/
-        this.router.get('/order', this.OrderController.getAllOrders);
+        // GET api/orders/
+        this.router.get('/orders', this.OrderController.getAllOrders);
 
         // GET api/order/:id
         this.router.get('/order/:id', this.OrderController.getOrderById);

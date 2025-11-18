@@ -10,8 +10,7 @@ export class OrderDao {
         return this.instance;
     }
 
-// CRUD operations for Order, 
-//create Order
+// create order
     public async createOrder(orderData: Partial<IOrder>) {
         try {
             console.log("Creating order with data:", orderData);
@@ -65,5 +64,3 @@ export class OrderDao {
         }
 } 
 }
-
-// model => dao => service => controller => routes

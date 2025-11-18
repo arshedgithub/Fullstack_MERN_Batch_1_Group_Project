@@ -24,7 +24,7 @@ export class OrderDao {
     }
 
     //read order by id
-    public async findOrderById(orderId: string) {
+    public async getOrderById(orderId: string) {
         try {
             return await Order.findById(orderId);
         } catch (error) {

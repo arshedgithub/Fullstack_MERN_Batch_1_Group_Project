@@ -8,7 +8,6 @@ const app: Application = express();
 
 app.use(express.json());
 
-// Connect MongoDB
 connectDB();
 
 app.get("/", (req: Request, res: Response) => {

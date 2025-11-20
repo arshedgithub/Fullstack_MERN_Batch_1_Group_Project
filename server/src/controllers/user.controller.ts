@@ -1,5 +1,5 @@
-import type { Request, Response } from 'express';
-import { UserService } from '../services/user.service';
+import type { Request, Response } from "express";
+import { UserService } from "../services/user.service";
 
 export class UserController {
   private userService: UserService;
@@ -9,37 +9,77 @@ export class UserController {
   }
 
   register = async (req: Request, res: Response) => {
-    //   try {
-    //       const user = await this.userService.getUserById(String(userId));
 
-    //       return {user, status: 200, message: 'User profile fetched successfully'};
-    //   } catch (error) {
-    //           return {res, status: 500, message: 'Internal server error: ' + error};
-    //   }
+    try {
+      const { username, email, password } = req.body;
+      if (!username || !password) {
+        return res.status(400).json({
+          message: "Username and password are required",
+        });
+      }
+
+      const user = await this.userService.createUser(username, email, password);
+
+      if (!user) {
+        return res.status(400).json({
+          message: "User not created",
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error && error.message.includes("duplicate key error")){
+        
+        return res.status(400).json({
+          message: `Duplicate data: ${(error as any)?.errorResponse?.keyValue?.email || (error as any)?.errorResponse?.keyValue?.username}`,
+          error:
+            error instanceof Error ? error.message : "Unable to create user",
+        });
+      }
+      return res.status(500).json({
+        message: "Internal server error",
+        error:
+          error instanceof Error ? error.message : "Unable to create user",
+      });
+    }
   };
 
   getUserProfile = async (req: Request, res: Response) => {
     try {
-      //   const userId = (req as unknown as Request)?.user._id;
       const userId = req.params.id;
       const user = await this.userService.getUserById(String(userId));
 
-      if (userId) {
-        return { res, status: 404, message: 'User not found' };
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
       }
 
-      return { user, status: 200, message: 'User profile fetched successfully' };
+      return res.status(200).json({
+        message: "User profile fetched successfully",
+        data: user,
+      });
     } catch (error) {
-      return { res, status: 500, message: 'Internal server error: ' + error };
+      return res.status(500).json({
+        message: "Internal server error",
+        error:
+          error instanceof Error ? error.message : "Unable to fetch user profile",
+      });
     }
   };
 
-  getAllUsers = async (req: Request, res: Response) => {
+  getAllUsers = async (_req: Request, res: Response) => {
     try {
       const users = await this.userService.getAllUsers();
-      return { users, status: 200, message: 'Users fetched successfully' };
+
+      return res.status(200).json({
+        message: "Users fetched successfully",
+        data: users,
+      });
     } catch (error) {
-      return { res, status: 500, message: 'Internal server error: ' + error };
+      return res.status(500).json({
+        message: "Internal server error",
+        error:
+          error instanceof Error ? error.message : "Unable to fetch users",
+      });
     }
   };
 }

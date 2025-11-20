@@ -1,3 +1,4 @@
+import "./config/env.config";
 import express from "express";
 import type { Application, Request, Response } from "express";
 import connectDB from "./config/db.config";

@@ -2,15 +2,20 @@ import { Schema, model, Document } from "mongoose";
 
 export interface IUser extends Document {
   _id: string;
+  authId: string;
   username: string;
   email?: string;
-  password: string;
   role: "user" | "admin";
   userStatus: "active" | "inactive" | "suspended";
 }
 
 const userSchema = new Schema<IUser>(
   {
+    authId: {
+      type: String,
+      required: true,
+      unique: true
+    },
     username: {
       type: String,
       required: true,
@@ -20,10 +25,6 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: false,
       unique: true
-    },
-    password: {
-      type: String,
-      required: true
     },
     role: {
       type: String,

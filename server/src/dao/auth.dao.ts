@@ -10,18 +10,19 @@ export class UserDao {
         return this.instance;
     };
 
-    public async findUserById(userId: string) {
+    public async createUser(userData: Partial<IUser>) {
         try {
-            return await User.findById(userId);
+            const user = new User(userData);
+            return await user.save();
         } catch (error) {
             console.log("Error", error);
             throw error;
         }
     }
 
-    public async getAllActiveUsers() {
+    public async findUserByEmailAndPassword(email: string, password: string) {
         try {
-            return await User.find({ userStatus: "active" });
+            return await User.findOne({ email, password });
         } catch (error) {
             console.log("Error", error);
             throw error;

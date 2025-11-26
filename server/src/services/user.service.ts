@@ -1,13 +1,16 @@
 import { promiseHooks } from "v8";
 import { UserDao } from "../dao/user.dao";
+import { AuthDao } from "../dao/auth.dao";
 import type { IUser } from "../models/user.model";
 
 export class UserService {
     private static instance: UserService;
     private userDao: UserDao;
+    private authDao: AuthDao;
 
     private constructor() {
         this.userDao = UserDao.getInstance();
+        this.authDao = AuthDao.getInstance();
     }
 
     public static getInstance(): UserService {
@@ -37,7 +40,7 @@ export class UserService {
                 password
             };
 
-            return await this.userDao.createUser(userData);
+            return await this.authDao.createUser(userData);
         } catch (error) {
             throw error;
         }
@@ -45,7 +48,7 @@ export class UserService {
 
     public async userValidate(email: string, password: string) {
         try {
-            return await this.userDao.findUserByEmailAndPassword(email, password);
+            return await this.authDao.findUserByEmailAndPassword(email, password);
         } catch (e) {
             console.log("Error in user validating: ", e);
             throw e;

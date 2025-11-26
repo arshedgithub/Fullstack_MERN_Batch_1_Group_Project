@@ -10,25 +10,6 @@ export class UserDao {
         return this.instance;
     };
 
-    public async createUser(userData: Partial<IUser>) {
-        try {
-            const user = new User(userData);
-            return await user.save();
-        } catch (error) {
-            console.log("Error", error);
-            throw error;
-        }
-    }
-
-    public async findUserByEmailAndPassword(email: string, password: string) {
-        try {
-            return await User.findOne({ email, password });
-        } catch (error) {
-            console.log("Error", error);
-            throw error;
-        }
-    }
-
     public async findUserById(userId: string) {
         try {
             return await User.findById(userId);
@@ -47,5 +28,3 @@ export class UserDao {
         }
     }
 } 
-
-// model => dao => service => controller => routes

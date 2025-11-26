@@ -20,13 +20,26 @@ export class ProductController {
       
       const product = await this.productService.createProduct(productData);
       
+      if (!product) {
+        return res.status(400).json({
+          message: 'Product not created'
+        });
+      }
+      
       return res.status(201).json({ 
-        product, 
-        message: 'Product created successfully' 
+        message: 'Product created successfully',
+        data: product
       });
     } catch (error) {
+      if (error instanceof Error && error.message.includes('duplicate key error')) {
+        return res.status(400).json({
+          message: `Duplicate data: ${(error as any)?.errorResponse?.keyValue?.name}`,
+          error: error instanceof Error ? error.message : 'Unable to create product'
+        });
+      }
       return res.status(500).json({ 
-        message: 'Internal server error: ' + error 
+        message: 'Internal server error',
+        error: error instanceof Error ? error.message : 'Unable to create product'
       });
     }
   };
@@ -37,16 +50,19 @@ export class ProductController {
       const product = await this.productService.getProductById(String(productId));
 
       if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
+        return res.status(404).json({ 
+          message: 'Product not found' 
+        });
       }
 
       return res.status(200).json({ 
-        product, 
-        message: 'Product profile fetched successfully' 
+        message: 'Product fetched successfully',
+        data: product
       });
     } catch (error) {
       return res.status(500).json({ 
-        message: 'Internal server error: ' + error 
+        message: 'Internal server error',
+        error: error instanceof Error ? error.message : 'Unable to fetch product'
       });
     }
   };
@@ -55,12 +71,13 @@ export class ProductController {
     try {
       const products = await this.productService.getAllProductsList();
       return res.status(200).json({ 
-        products, 
-        message: 'Products fetched successfully' 
+        message: 'Products fetched successfully',
+        data: products
       });
     } catch (error) {
       return res.status(500).json({ 
-        message: 'Internal server error: ' + error 
+        message: 'Internal server error',
+        error: error instanceof Error ? error.message : 'Unable to fetch products'
       });
     }
   };
@@ -75,16 +92,19 @@ export class ProductController {
       );
 
       if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
+        return res.status(404).json({ 
+          message: 'Product not found' 
+        });
       }
 
       return res.status(200).json({ 
-        product, 
-        message: 'Product updated successfully' 
+        message: 'Product updated successfully',
+        data: product
       });
     } catch (error) {
       return res.status(500).json({ 
-        message: 'Internal server error: ' + error 
+        message: 'Internal server error',
+        error: error instanceof Error ? error.message : 'Unable to update product'
       });
     }
   };
@@ -95,15 +115,18 @@ export class ProductController {
       const product = await this.productService.deactivateProduct(String(productId));
 
       if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
+        return res.status(404).json({ 
+          message: 'Product not found' 
+        });
       }
 
       return res.status(200).json({ 
-        message: 'Product deactivated successfully' 
+        message: 'Product deactivated successfully'
       });
     } catch (error) {
       return res.status(500).json({ 
-        message: 'Internal server error: ' + error 
+        message: 'Internal server error',
+        error: error instanceof Error ? error.message : 'Unable to deactivate product'
       });
     }
   };

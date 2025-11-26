@@ -1,11 +1,11 @@
 import User, { type IUser } from '../models/user.model';
 
-export class UserDao {
-    public static instance: UserDao;
+export class AuthDao {
+    public static instance: AuthDao;
 
-    static getInstance = (): UserDao => {
+    static getInstance = (): AuthDao => {
         if (!this.instance) {
-            this.instance = new UserDao();
+            this.instance = new AuthDao();
         }
         return this.instance;
     };

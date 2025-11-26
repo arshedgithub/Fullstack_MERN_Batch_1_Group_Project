@@ -1,3 +1,4 @@
+import "./config/env.config";
 import express from "express";
 import type { Application, Request, Response } from "express";
 import connectDB from "./config/db.config";
@@ -7,7 +8,6 @@ const app: Application = express();
 
 app.use(express.json());
 
-// Connect MongoDB
 connectDB();
 
 app.get("/", (req: Request, res: Response) => {

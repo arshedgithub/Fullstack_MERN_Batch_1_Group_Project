@@ -25,6 +25,11 @@ export class UserController {
           message: "User not created",
         });
       }
+
+      return res.status(200).json({
+        message: "User successfully created",
+        data: user,
+      });
     } catch (error) {
       if (error instanceof Error && error.message.includes("duplicate key error")){
         

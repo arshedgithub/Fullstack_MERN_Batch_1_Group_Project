@@ -1,17 +1,17 @@
-import { type Application, Router } from 'express';
-import UserRoutes from './user.route';
-import OrderRoutes from './order.route';
+import { type Application, Router } from "express";
+import UserRoutes from "./user.route";
 
-export async function SetRoutes(app: Application) {
-    const router = Router();
+export function SetRoutes(app: Application): void {
+  const router = Router();
 
-    app.use('/api', router);
+  app.use("/api", router);
 
-    new UserRoutes(router);
-    new OrderRoutes(router);
+  new UserRoutes(router);
 
-    app.use((req, res) => {
-        return { res, status: 404, message: "API not found"}
+  app.use((req, res) => {
+    res.status(404).json({
+      message: "API not found",
+      path: req.originalUrl,
     });
-
+  });
 }

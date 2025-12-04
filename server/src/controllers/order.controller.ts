@@ -8,11 +8,12 @@ export class OrderController {
     this.orderService = OrderService.getInstance();
   }
 
+  //create order
   createOrder = async (_req: Request, res: Response) => {
     try {
       const orderData = _req.body;
       const newOrder = await this.orderService.createOrder(orderData);
-      return { newOrder, status: 201, message: 'Order created successfully' };
+      return { newOrder, status: 201, message: 'Order Successfully created' };
     } catch (error) {
       return res.status(500).json({ message: 'Internal server error: ' + error });
     }     

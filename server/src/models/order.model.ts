@@ -1,12 +1,12 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId, Types } from "mongoose";
 
 export interface IOrder extends Document {
-    _id: string;
+    _id: Types.ObjectId;
     items: Array<{
-        productId: string,
-        name: string,
-        quantity: number,
-        price: number
+        productId: string;
+        name: string;
+        quantity: number;
+        price: number;
     }>;
     totalAmount: number;
     customer: string;

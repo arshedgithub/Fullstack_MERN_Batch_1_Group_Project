@@ -16,6 +16,7 @@ export class OrderDao {
             console.log("Creating order with data:", orderData);
             const order = new Order(orderData);
             return await order.save();
+            
         } catch (error) {
             console.log("Something went wrong", error);
             throw error;

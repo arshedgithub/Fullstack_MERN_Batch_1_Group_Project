@@ -18,7 +18,7 @@ export class OrderController {
       const orderData = req.body;
       const newOrder = await this.orderDao.createOrder(orderData);
 
-      return res.status(201).json({ order: newOrder, message: 'Order created successfully' });
+      return res.status(201).json({ order: newOrder, message: 'Order created successfully', data : newOrder });
       
     } catch (error) {
       return res.status(500).json({ message: 'Internal server error: ' + error });
@@ -32,7 +32,7 @@ export class OrderController {
       const order = await this.orderService.getOrderById(orderId);      
       if (order) {
         
-        return { order, status: 200, message: 'Order fetched successfully' };
+        return res.status(200).json({ order, message: 'Order fetched successfully' });
       } else {
         return res.status(404).json({ message: 'Order not found' });
       }

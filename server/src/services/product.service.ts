@@ -63,7 +63,10 @@ export class ProductService {
 
     public async deactivateProduct(productId: string): Promise<IProduct | null> {
         try {
-            return await this.productDao.deactivateProduct(productId);
+            const product =await this.productDao.deactivateProduct(productId);
+            console.log("product: ", product);
+            
+            return product;
         } catch (error) {
             throw error;
         }

@@ -112,7 +112,8 @@ export class ProductController {
   deactivateProduct = async (req: Request, res: Response) => {
     try {
       const productId = req.params.id;
-      const product = await this.productService.deactivateProduct(String(productId));
+      console.log("Deactivating product with ID: ", productId);
+      const product = await this.productService.deactivateProduct(productId);
 
       if (!product) {
         return res.status(404).json({ 

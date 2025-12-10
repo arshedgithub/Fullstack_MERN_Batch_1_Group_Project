@@ -63,11 +63,15 @@ export class ProductDao {
 
     public async deactivateProduct(productId: string) {
         try {
-            return await Product.findByIdAndUpdate(
+            console.log("Deactivating product with ID: ", productId);
+            const product = await Product.findByIdAndUpdate(
+                
                 productId,
                 { isAvailable: false },
                 { new: true }
             );
+console.log("product in dao: ", product);
+            return product;
         } catch (error) {
             console.log("Error", error);
             throw error;

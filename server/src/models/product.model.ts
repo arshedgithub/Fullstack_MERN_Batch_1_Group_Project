@@ -1,14 +1,14 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IProduct extends Document {
-    _id: string;
+    _id: Types.ObjectId;
     name: string;
     description: string;
     price: number;
     imageUrl: string;
     isAvailable: boolean;
     status?: "in stock" | "out of stock";
-    createdBy: string;
+    createdBy: Types.ObjectId;
 }
 
 const productSchema = new Schema<IProduct>(
@@ -38,7 +38,7 @@ const productSchema = new Schema<IProduct>(
             default: "in stock"
         },
         createdBy: {
-            type: String,
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: false
         }

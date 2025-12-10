@@ -11,19 +11,19 @@ export default class OrderRoutes {
 
     private configureRoutes() {
 
-        // Create api/Users/
+        // Create api/Orders/
         this.router.post('/orders', this.OrderController.createOrder);
 
-        // GET ALL api/Users/
+        // GET ALL api/Orders/
         this.router.get('/orders', this.OrderController.getAllOrders);
 
-        // GET api/users/:id
+        // GET api/order/:id
         this.router.get('/order/:id', this.OrderController.getOrderById);
 
-        // PUT api/users/:id
+        // PUT api/order/:id
         this.router.put('/order/:id', this.OrderController.updateOrderById);
 
-        // DELETE api/users/:id
+        // DELETE api/order/:id
         this.router.delete('/order/:id', this.OrderController.deleteOrderById);
     }
 }

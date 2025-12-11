@@ -1,6 +1,7 @@
 import { type Application, Router } from "express";
 import UserRoutes from "./user.route";
 import OrderRoutes from "./order.route";  
+import ProductRoutes from "./product.route";
 
 export function SetRoutes(app: Application): void {
   const router = Router();
@@ -8,6 +9,7 @@ export function SetRoutes(app: Application): void {
   app.use("/api", router);
 
   new UserRoutes(router);
+  new ProductRoutes(router);
 
   new OrderRoutes(router);
 

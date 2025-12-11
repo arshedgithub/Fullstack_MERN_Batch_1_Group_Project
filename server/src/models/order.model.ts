@@ -1,52 +1,80 @@
-import { Schema, model, Document, ObjectId, Types } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
+
+export interface IOrderItem {
+    productId: string;
+    product: string;
+    size: "small" | "medium" | "large" ;
+    quantity: number;
+    price: number;
+    toppings?: string[];
+    specialInstructions?: string;
+}
 
 export interface IOrder extends Document {
-    _id: Types.ObjectId;
-    items: Array<{
-        productId: string;
-        name: string;
-        quantity: number;
-        price: number;
-    }>;
+    _id: string;
+    orderNumber: string;
+    customerId: string;
+    items: IOrderItem[];
     totalAmount: number;
-    customer: string;
-    isAvailable: boolean;
-    status?: "pending" | "processing" | "completed" | "delivered";
-    createdBy?: string;
+    orderStatus: "pending" | "preparing" | "ready" | "cancelled";
+    paymentMethod: "cash" | "card" | "online";
+    createdAt: Date;
 }
 
 const orderSchema = new Schema<IOrder>(
     {
-        items: Array<{
-            productId: string, 
-            name: string,
-            quantity: number,
-            price: number
-        }>,
+        orderNumber: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        customerId: {
+            type: String,
+            ref: 'User',
+            required: true
+        },
+        items: [{
+            productId: {
+                type: String,
+                ref: 'Product',
+                required: true
+            },
+            product: {
+                type: String,
+                required: true
+            },
+            size: String,
+            quantity: {
+                type: Number,
+                required: true,
+                min: 1
+            },
+            price: {
+                type: Number,
+                required: true
+            },
+            toppings: [String],
+            specialInstructions: String
+        }],
         totalAmount: {
             type: Number,
+            required: true
         },
-        customer: {
+        orderStatus: {
             type: String,
-            ref: 'User',
-            required: true,
-        },
-        isAvailable: {
-            type: Boolean,
-            default: true
-        },
-        status: {
-            type: String,
-            enum: ["pending", "processing", "completed", "delivered"],
+            enum: ["pending", "preparing", "ready", "cancelled"],
             default: "pending"
         },
-        createdBy: {
+        paymentMethod: {
             type: String,
-            ref: 'User',
-            required: false
+            enum: ["cash", "card", "online"],
+            required: true
+        },
+        createdAt:{
+            type: Date,
+            default: Date.now
         }
-    },
-    { timestamps: true }
+    }
 );
 
 export default model<IOrder>("Order", orderSchema);

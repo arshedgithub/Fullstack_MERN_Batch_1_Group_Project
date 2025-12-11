@@ -1,5 +1,6 @@
 import { type Application, Router } from "express";
 import UserRoutes from "./user.route";
+import OrderRoutes from "./order.route";  
 import ProductRoutes from "./product.route";
 
 export function SetRoutes(app: Application): void {
@@ -9,6 +10,8 @@ export function SetRoutes(app: Application): void {
 
   new UserRoutes(router);
   new ProductRoutes(router);
+
+  new OrderRoutes(router);
 
   app.use((req, res) => {
     res.status(404).json({

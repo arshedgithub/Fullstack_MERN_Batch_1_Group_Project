@@ -1,39 +1,24 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IOrderItem {
-    productId: string;
-    name: string;
-    size?: string;
+    productId: Types.ObjectId;
+    product: string;
+    size: "small" | "medium" | "large" ;
     quantity: number;
     price: number;
     toppings?: string[];
     specialInstructions?: string;
 }
 
-export interface IDeliveryAddress {
-    street: string;
-    city: string;
-    zipCode: string;
-    phone: string;
-}
-
 export interface IOrder extends Document {
-    _id: string;
+    _id: Types.ObjectId;
     orderNumber: string;
-    customerId: string;
+    customerId: Types.ObjectId;
     items: IOrderItem[];
-    subtotal: number;
-    tax: number;
-    deliveryFee: number;
-    total: number;
-    status: "pending" | "confirmed" | "preparing" | "ready" | "out-for-delivery" | "delivered" | "cancelled";
+    totalAmount: number;
+    orderStatus: "pending" | "preparing" | "ready" | "cancelled";
     paymentMethod: "cash" | "card" | "online";
-    paymentStatus: "pending" | "paid" | "refunded";
-    deliveryAddress: IDeliveryAddress;
-    deliveryInstructions?: string;
-    estimatedDeliveryTime?: Date;
-    actualDeliveryTime?: Date;
-    assignedTo?: string;
+    createdAt: Date;
 }
 
 const orderSchema = new Schema<IOrder>(
@@ -44,17 +29,17 @@ const orderSchema = new Schema<IOrder>(
             unique: true
         },
         customerId: {
-            type: String,
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
         items: [{
             productId: {
-                type: String,
+                type: Schema.Types.ObjectId,
                 ref: 'Product',
                 required: true
             },
-            name: {
+            product: {
                 type: String,
                 required: true
             },
@@ -71,25 +56,13 @@ const orderSchema = new Schema<IOrder>(
             toppings: [String],
             specialInstructions: String
         }],
-        subtotal: {
+        totalAmount: {
             type: Number,
             required: true
         },
-        tax: {
-            type: Number,
-            default: 0
-        },
-        deliveryFee: {
-            type: Number,
-            default: 0
-        },
-        total: {
-            type: Number,
-            required: true
-        },
-        status: {
+        orderStatus: {
             type: String,
-            enum: ["pending", "confirmed", "preparing", "ready", "out-for-delivery", "delivered", "cancelled"],
+            enum: ["pending", "preparing", "ready", "cancelled"],
             default: "pending"
         },
         paymentMethod: {
@@ -97,38 +70,11 @@ const orderSchema = new Schema<IOrder>(
             enum: ["cash", "card", "online"],
             required: true
         },
-        paymentStatus: {
-            type: String,
-            enum: ["pending", "paid", "refunded"],
-            default: "pending"
-        },
-        deliveryAddress: {
-            street: {
-                type: String,
-                required: true
-            },
-            city: {
-                type: String,
-                required: true
-            },
-            zipCode: {
-                type: String,
-                required: true
-            },
-            phone: {
-                type: String,
-                required: true
-            }
-        },
-        deliveryInstructions: String,
-        estimatedDeliveryTime: Date,
-        actualDeliveryTime: Date,
-        assignedTo: {
-            type: String,
-            ref: 'User'
+        createdAt:{
+            type: Date,
+            default: Date.now
         }
-    },
-    { timestamps: true }
+    }
 );
 
 export default model<IOrder>("Order", orderSchema);

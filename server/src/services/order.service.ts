@@ -1,4 +1,3 @@
-import { promiseHooks } from "v8";
 import { OrderDao } from "../dao/order.dao";
 import type { IOrder } from "../models/order.model";
 

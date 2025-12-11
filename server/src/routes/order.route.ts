@@ -17,13 +17,15 @@ export default class OrderRoutes {
         // GET ALL api/Orders/
         this.router.get('/orders', this.OrderController.getAllOrders);
 
-        // GET api/order/:id
-        this.router.get('/order/:id', this.OrderController.getOrderById);
+        // GET api/orders/:id
+        this.router.get('/orders/:id', this.OrderController.getOrderById);
 
-        // PUT api/order/:id
-        this.router.put('/order/:id', this.OrderController.updateOrderById);
+        // PUT api/orders/:id
+        this.router.put('/orders/:id', this.OrderController.updateOrderById);
 
-        // DELETE api/order/:id
-        this.router.delete('/order/:id', this.OrderController.deleteOrderById);
+        // DELETE api/orders/:id
+        this.router.delete('/orders/:id', this.OrderController.deleteOrderById);
+
     }
+
 }

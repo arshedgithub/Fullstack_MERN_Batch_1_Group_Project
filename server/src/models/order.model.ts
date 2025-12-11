@@ -1,7 +1,7 @@
 import { Schema, model, Document, Types } from "mongoose";
 
 export interface IOrderItem {
-    productId: string;
+    productId: Types.ObjectId;
     product: string;
     size: "small" | "medium" | "large" ;
     quantity: number;
@@ -11,9 +11,9 @@ export interface IOrderItem {
 }
 
 export interface IOrder extends Document {
-    _id: string;
+    _id: Types.ObjectId;
     orderNumber: string;
-    customerId: string;
+    customerId: Types.ObjectId;
     items: IOrderItem[];
     totalAmount: number;
     orderStatus: "pending" | "preparing" | "ready" | "cancelled";
@@ -29,13 +29,13 @@ const orderSchema = new Schema<IOrder>(
             unique: true
         },
         customerId: {
-            type: String,
+            type: Schema.Types.ObjectId,
             ref: 'User',
             required: true
         },
         items: [{
             productId: {
-                type: String,
+                type: Schema.Types.ObjectId,
                 ref: 'Product',
                 required: true
             },

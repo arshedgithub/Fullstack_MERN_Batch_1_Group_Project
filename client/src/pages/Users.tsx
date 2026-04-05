@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllUsers } from "../services/user.service";
+import UserCard from "../components/UserCard";
 
 interface User {
     _id: string;
@@ -10,7 +11,7 @@ interface User {
 }
 
 export default function Users() {
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -25,18 +26,23 @@ export default function Users() {
     }, []);
 
     return (
-        <div>
-            <div>Users Page</div>
+        <div style={{ maxWidth: "980px", margin: "40px auto", padding: "0 16px" }}>
+            <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>Users</h2>
 
-            <div>
-                <ul>
-                    {users.map((user: User) => (
-                        <li key={user._id}>
-                            {user.username} - {user.email} - {user.userStatus} - {user.role}
-                        </li>
-                    ))}
-                </ul>   
-            </div>
+            <ul
+                style={{
+                    listStyleType: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "grid",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                    gap: "16px",
+                }}
+            >
+                {users.map((user) => (
+                    <UserCard key={user._id} user={user} />
+                ))}
+            </ul>
         </div>
     );
 }

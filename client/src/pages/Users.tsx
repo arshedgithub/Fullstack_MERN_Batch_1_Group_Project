@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getAllUsers } from "../services/user.service";
 
 interface User {
     _id: string;
@@ -12,10 +13,15 @@ export default function Users() {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/api/users")
-            .then((res) => res.json())
-            .then((data) => setUsers(data.data))
-            .catch((err) => console.error(err));
+        const fetchUsers = async () => {
+            try {
+                const allUsers = await getAllUsers();
+                setUsers(allUsers);
+            } catch (error) {
+                console.error("Error fetching users:", error);
+            }
+        };
+        fetchUsers();
     }, []);
 
     return (
